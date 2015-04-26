@@ -106,7 +106,7 @@ colnames(finalData) = colNames;
 finalActivityType  = finalData[,names(finalData) != 'activityType'];
 
 # Summarizing the finalDataNoActivityType table to include just the mean of each variable for each activity and each subject
-tidyData    = aggregate(finalActivityType[,names(finalActivityType) != c('activityId','subjectId')],by=list(activityId=finalDataNoActivityType$activityId,subjectId = finalActivityType$subjectId),mean);
+tidyData    = aggregate(finalActivityType[,names(finalActivityType) != c('activityId','subjectId')],by=list(activityId=finalActivityType$activityId,subjectId = finalActivityType$subjectId),mean);
 
 # Merging the tidyData with activityType to include descriptive acitvity names
 tidyData    = merge(tidyData,activityType,by='activityId',all.x=TRUE);
