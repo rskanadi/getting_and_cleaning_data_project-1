@@ -64,11 +64,11 @@ colNames  = colnames(finalData);
 
 # 2. Extract only the measurements on the mean and standard deviation for each measurement. 
 
-# Create a logicalVector that contains TRUE values for the ID, mean() & stddev() columns and FALSE for others
-logicalVector = (grepl("activity..",colNames) | grepl("subject..",colNames) | grepl("-mean..",colNames) & !grepl("-meanFreq..",colNames) & !grepl("mean..-",colNames) | grepl("-std..",colNames) & !grepl("-std()..-",colNames));
+# Create a meanstdevVector that contains TRUE values for the ID, mean() & stddev() columns and FALSE for others
+meanstdevVector = (grepl("activity..",colNames) | grepl("subject..",colNames) | grepl("-mean..",colNames) & !grepl("-meanFreq..",colNames) & !grepl("mean..-",colNames) | grepl("-std..",colNames) & !grepl("-std()..-",colNames));
 
 # Subset finalData table based on the logicalVector to keep only desired columns
-finalData = finalData[logicalVector==TRUE];
+finalData = finalData[meanstdevVector==TRUE];
 
 # 3. Use descriptive activity names to name the activities in the data set
 
@@ -103,10 +103,10 @@ colnames(finalData) = colNames;
 # 5. Create a second, independent tidy data set with the average of each variable for each activity and each subject. 
 
 # Create a new table, finalDataNoActivityType without the activityType column
-finalDataNoActivityType  = finalData[,names(finalData) != 'activityType'];
+finalActivityType  = finalData[,names(finalData) != 'activityType'];
 
 # Summarizing the finalDataNoActivityType table to include just the mean of each variable for each activity and each subject
-tidyData    = aggregate(finalDataNoActivityType[,names(finalDataNoActivityType) != c('activityId','subjectId')],by=list(activityId=finalDataNoActivityType$activityId,subjectId = finalDataNoActivityType$subjectId),mean);
+tidyData    = aggregate(finalActivityType[,names(finalActivityType) != c('activityId','subjectId')],by=list(activityId=finalDataNoActivityType$activityId,subjectId = finalActivityType$subjectId),mean);
 
 # Merging the tidyData with activityType to include descriptive acitvity names
 tidyData    = merge(tidyData,activityType,by='activityId',all.x=TRUE);
